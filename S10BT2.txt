@@ -1,0 +1,30 @@
+-- BT2 --
+
+DELIMITER $$
+
+CREATE procedure  etEnglishSpeakingCountriesWithCities(INOUT p_language VARCHAR(50))
+
+BEGIN
+    SELECT 
+        co.Name AS CountryName,
+        SUM(ci.Population) AS TotalPopulation
+    FROM country co
+    JOIN city ci ON co.Code = ci.CountryCode
+    JOIN countrylanguage cl ON co.Code = cl.CountryCode
+    WHERE cl.Language = p_language
+      AND cl.IsOfficial = 'T'
+    GROUP BY co.Name
+    HAVING SUM(ci.Population) > 5000000
+    ORDER BY TotalPopulation DESC
+    LIMIT 10;
+END $$
+
+DELIMITER ;
+
+-- 3-- 
+CALL GetEnglishSpeakingCountriesWithCities('English');
+
+-- 4 -- 
+DROP PROCEDURE IF EXISTS etEnglishSpeakingCountriesWithCities;
+ 
+
