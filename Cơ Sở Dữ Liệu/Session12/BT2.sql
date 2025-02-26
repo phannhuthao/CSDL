@@ -7,6 +7,7 @@ CREATE TABLE orders (
     order_date DATE NOT NULL
 );
 
+-- 2 Tiến hành tạo bảng price_changes: --
 CREATE TABLE price_changes (
     change_id INT AUTO_INCREMENT PRIMARY KEY,
     product VARCHAR(100) NOT NULL,
@@ -22,7 +23,8 @@ INSERT INTO orders (customer_name, product, quantity, price, order_date) VALUES
 ('Alice', 'Keyboard', 3, 100.00, '2023-01-20'),
 ('Dave', 'Monitor', NULL, 300.00, '2023-04-10');
 
--- 2 --
+
+-- 3 Tạo một trigger AFTER UPDATE để ghi lại giá cũ và giá mới khi giá sản phẩm thay đổi vào bảng price_changes. --
 DELIMITER //
 CREATE TRIGGER after_update_orders
 AFTER UPDATE ON orders
@@ -37,9 +39,13 @@ END;
 //
 DELIMITER ;
 
--- 3 --
+-- 4 Thực hiện thao tác UPDATE: --
+
+-- Cập nhật giá của sản phẩm 'Laptop'  thành 1400.00. --
+
+- Cập nhật giá của sản phẩm 'Smartphone' thành 800.00  --
 UPDATE orders SET price = 1400.00 WHERE product = 'Laptop';
 UPDATE orders SET price = 800.00 WHERE product = 'Smartphone';
 
--- 4 --
+-- 5 Kiểm tra lại dữ liệu trong bảng price_changes --
 DROP TRIGGER IF EXISTS after_update_orders;

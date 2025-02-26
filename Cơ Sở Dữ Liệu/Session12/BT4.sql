@@ -7,6 +7,7 @@ CREATE TABLE orders (
     order_date DATE NOT NULL
 );
 
+-- 2 Tạo bảng order_warnings để lưu các cảnh báo về đơn hàng nếu giá trị vượt quá ngưỡng --
 CREATE TABLE order_warnings  (
     warning_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
@@ -21,7 +22,7 @@ INSERT INTO orders (customer_name, product, quantity, price, order_date) VALUES
 ('Alice', 'Keyboard', 3, 100.00, '2023-01-20'),
 ('Dave', 'Monitor', NULL, 300.00, '2023-04-10');
 
--- 3 --
+-- 3  Tạo trigger AFTER INSERT để kiểm tra tổng giá trị của đơn hàng (quantity * price): --
 DELIMITER //
 CREATE TRIGGER after_insert_orders
 AFTER INSERT ON orders
@@ -35,7 +36,11 @@ END;
 //
 DELIMITER ;
 
--- 4 -- 
+-- 4 Thực hiện thao tác INSERT: --
+
+-- Thêm đơn hàng mới: ('Mark', 'Monitor', 2, 3000.00, '2023-08-01') --
+
+-- Thêm đơn hàng mới: ('Paul', 'Mouse', 1, 50.00, '2023-08-02') -- 
 INSERT INTO orders (customer_name, product, quantity, price, order_date)
 VALUES ('Mark', 'Monitor', 2, 3000.00, '2023-08-01');
 

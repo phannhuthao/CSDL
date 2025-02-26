@@ -7,6 +7,7 @@ CREATE TABLE orders (
     order_date DATE NOT NULL
 );
 
+-- 2 Tạo bảng deleted_orders để lưu thông tin các đơn hàng đã bị xóa --
 CREATE TABLE deleted_orders  (
     delete_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
@@ -24,7 +25,7 @@ INSERT INTO orders (customer_name, product, quantity, price, order_date) VALUES
 ('Alice', 'Keyboard', 3, 100.00, '2023-01-20'),
 ('Dave', 'Monitor', NULL, 300.00, '2023-04-10');
 
--- 2 --
+-- 3 Tạo trigger AFTER DELETE để lưu thông tin các đơn hàng bị xóa vào bảng deleted_orders -- 
 DELIMITER //
 CREATE TRIGGER after_delete_orders
 AFTER DELETE ON orders
@@ -36,11 +37,15 @@ END;
 //
 DELIMITER ;
 
--- 3 -- 
+-- 4  Thực hiện thao tác DELETE: --
+
+-- Xóa đơn hàng có order_id = 4 --
+
+-- Xóa đơn hàng có order_id = 5 -- 
 DELETE FROM orders WHERE order_id = 4;
 DELETE FROM orders WHERE order_id = 5;
 
--- 4 -- 
+-- 5 Hiển thị lại bảng deleted_orders để xem thông tin đơn hàng bị xóa -- 
 SELECT * FROM deleted_orders;
 
 
