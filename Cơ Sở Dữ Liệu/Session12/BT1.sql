@@ -14,7 +14,12 @@ INSERT INTO orders (customer_name, product, quantity, price, order_date) VALUES
 ('Alice', 'Keyboard', 3, 100.00, '2023-01-20'),
 ('Dave', 'Monitor', NULL, 300.00, '2023-04-10');
 
--- 2 -- 
+-- 2 Tạo một trigger BEFORE INSERT trên bảng orders để kiểm tra:
+
+- Nếu quantity là NULL hoặc nhỏ hơn 1, tự động gán giá trị là 1.
+
+- Nếu order_date không được cung cấp (NULL), tự động gán là ngày hiện tại (CURDATE()). -- 
+
 DELIMITER //
 CREATE TRIGGER before_insert_orders
 BEFORE INSERT ON orders
@@ -33,10 +38,15 @@ END;
 //
 DELIMITER ;
 
--- 3 --
+-- 3 Sau khi tạo trigger, chèn 2 bản ghi vào bảng orders để kiểm chứng: --
+
+-- Bản ghi 1: ('Anna', 'Tablet', NULL, 400.00, NULL) --
+
+-- Bản ghi 2: ('John', 'Mouse', -3, 50.00, '2023-05-01') --
+
 INSERT INTO orders (customer_name, product, quantity, price, order_date) VALUES
 ('Anna', 'Tablet', NULL, 400.00, NULL),
 ('John', 'Mouse', -3, 50.00, '2023-05-01');
 
--- 4 --
+-- 4 Xóa trigger vừa tạo --
 DROP TRIGGER IF EXITS BEFORE before_insert_orders
