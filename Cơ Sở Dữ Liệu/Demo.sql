@@ -88,3 +88,12 @@ FROM Customers c
 LEFT JOIN Orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.customer_name;
 
+-- Câu 6.2: Thống kê tổng doanh thu của từng nhân viên trong năm hiện tại
+SELECT 
+    e.employee_id, 
+    e.name AS employee_name, 
+    SUM(o.total_amount) AS total_revenue
+FROM Orders o
+JOIN Employees e ON o.employee_id = e.employee_id
+WHERE YEAR(o.order_date) = YEAR(CURDATE())  
+GROUP BY e.employee_id, e.name;
