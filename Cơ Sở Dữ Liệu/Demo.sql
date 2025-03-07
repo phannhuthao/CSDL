@@ -53,6 +53,8 @@ ALTER TABLE Customers ADD COLUMN email VARCHAR(100) NOT NULL UNIQUE;
 
 
 -- 3.2 ALTER TABLE Employees DROP COLUMN birthday;
+ALTER TABLE Employees DROP COLUMN birthday;
+
 
 
 -- 4 Chèn dữ liệu mẫu
